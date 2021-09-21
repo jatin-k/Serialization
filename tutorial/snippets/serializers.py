@@ -1,8 +1,11 @@
 from rest_framework import serializers
-from snippets.models import Snippet, LANGUAGE_CHOICES, STYLE_CHOICES
+from snippets.models import NewUser
 
+class UserSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only = True)
+    name = serializers.CharField()
+    last_name = serializers.CharField()
+    city = serializers.CharField()
 
-class SnippetSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Snippet
-        fields = ['id', 'title', 'code', 'linenos', 'language', 'style']
+    def create(self, validated_data):
+        return NewUser.objects.create(**validated_data)
